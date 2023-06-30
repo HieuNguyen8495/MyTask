@@ -5,12 +5,15 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.MyTask.security.dto.UserDetailsDto;
+import com.example.MyTask.tasks.entity.TaskEntity;
+import com.example.MyTask.user.entity.UserEntity;
 import com.example.MyTask.user.repository.UserRepository;
 
 
@@ -24,25 +27,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		Optional<User> user = repository.findByUsernameWithGroups(username);
-//		
-//		if(!user.isPresent())
-//			throw new UsernameNotFoundException("Username is not existed.");
-//		
-//		Set<GrantedAuthority> authorities = getAuthorities(user.get().getGroups());
-//		
-//		return new UserDetailsDto(username, user.get().getPassword(), authorities);
-		return null;
+		Optional<UserEntity> user = repository.findByName(username);
+		
+		if(!user.isPresent())
+			throw new UsernameNotFoundException("Username is not existed.");
+		
+		Set<GrantedAuthority> authorities = getAuthorities(user.get().getTasks());
+		
+		return new UserDetailsDto(username, user.get().getPassword(), authorities);
+		
 	}
 
-//	private Set<GrantedAuthority> getAuthorities(Set<Group> groups) {
-//		Set<GrantedAuthority> authorities = new HashSet<>();
-//		
-//		for(Group group : groups) {
-//			authorities.add(new SimpleGrantedAuthority(group.getName()));
-//		}
-//		
-//		return authorities;
-//	}
+	private Set<GrantedAuthority> getAuthorities(Set<TaskEntity> tasks) {
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		
+		for (TaskEntity t : tasks) {
+			authorities.add(new SimpleGrantedAuthority(t.getTilte()));
+		}
+		
+		return authorities;
+	}
 
 }

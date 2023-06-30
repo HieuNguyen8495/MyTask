@@ -3,9 +3,10 @@ package com.example.MyTask.security.dto;
 import javax.validation.constraints.NotBlank;
 
 public class LoginDto {
-	@NotBlank(message = "${login.username.not-blank}")
+	@NotBlank
 	private String username;
-	@NotBlank(message = "${login.password.not-blank}")
+	
+	@NotBlank
 	private String password;
 	
 	public String getUsername() {

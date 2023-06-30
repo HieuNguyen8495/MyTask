@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.MyTask.tasks.dto.TaskDto;
@@ -21,10 +22,12 @@ import com.example.MyTask.user.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 	private UserRepository userRepo;
 	private TaskRepository taskRepo;
+	private PasswordEncoder encoder;
 	
-	public UserServiceImpl(UserRepository repository, TaskRepository repo) {
+	public UserServiceImpl(UserRepository repository, TaskRepository repo, PasswordEncoder pwEncoder) {
 		userRepo = repository;
 		taskRepo = repo;
+		encoder = pwEncoder;
 	}
 	
 	@Override
@@ -62,7 +65,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = new UserEntity();
 			userEntity.setName(dto.getName());
 			userEntity.setDisplayName(dto.getDisplayName());
-			userEntity.setPassword(dto.getPassword());
+			userEntity.setPassword(encoder.encode(dto.getPassword()));
 			userEntity.setEmail(dto.getEmail());
 		
 		UserEntity newUser = userRepo.save(userEntity);

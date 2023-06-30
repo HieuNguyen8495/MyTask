@@ -23,7 +23,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(Jwts.class);
 	
 	private Long jwtExpiration = 86400000L;
-	private String jwtSecret = "thisismysecrettoken";
+	private String jwtSecret = "mysecrettoken";
 	private String authHeader = "Authorization";
 	private String tokenPrefix = "Bearer ";
 	

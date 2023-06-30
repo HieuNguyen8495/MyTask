@@ -17,9 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.MyTask.security.jwt.JwtAuthorizationFilter;
 
-
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -70,3 +67,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	
 }
+   
